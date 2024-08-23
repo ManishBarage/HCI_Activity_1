@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AppBar, Toolbar, Button, Menu, MenuItem, Container, TextareaAutosize, Typography } from '@mui/material';
+import { AppBar, Toolbar, Button, Menu, MenuItem, Container, TextareaAutosize, Typography, Snackbar } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import DescriptionIcon from '@mui/icons-material/Description';
 import SaveIcon from '@mui/icons-material/Save';
@@ -14,7 +14,6 @@ import PrintIcon from '@mui/icons-material/Print';
 import SpellcheckIcon from '@mui/icons-material/Spellcheck';
 import MailIcon from '@mui/icons-material/Mail';
 import HelpIcon from '@mui/icons-material/Help';
-
 
 const ToolbarStyled = styled(Toolbar)({
   display: 'flex',
@@ -35,6 +34,7 @@ const Logo = styled('img')({
 function MainScreen() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [menu, setMenu] = useState(null);
+  const [showSaveNotification, setShowSaveNotification] = useState(false);
 
   const handleClick = (event, menu) => {
     setAnchorEl(event.currentTarget);
@@ -44,6 +44,16 @@ function MainScreen() {
   const handleClose = () => {
     setAnchorEl(null);
     setMenu(null);
+  };
+
+  const handleSave = () => {
+    // Simulate saving the file
+    setShowSaveNotification(true);
+
+    // Hide the notification after 3 seconds
+    setTimeout(() => {
+      setShowSaveNotification(false);
+    }, 3000);
   };
 
   return (
@@ -79,7 +89,7 @@ function MainScreen() {
             <MenuItem onClick={handleClose}><DescriptionIcon style={{ marginRight: '10px' }} /> New</MenuItem>
             <MenuItem onClick={handleClose}><FileOpenIcon style={{ marginRight: '10px' }} /> Open File</MenuItem>
             <MenuItem onClick={handleClose}><FileOpenIcon style={{ marginRight: '10px' }} /> Open Copy of File</MenuItem>
-            <MenuItem onClick={handleClose}><SaveIcon style={{ marginRight: '10px' }} /> Save</MenuItem>
+            <MenuItem onClick={handleSave}><SaveIcon style={{ marginRight: '10px' }} /> Save</MenuItem>
             <MenuItem onClick={handleClose}><SaveIcon style={{ marginRight: '10px' }} /> Save As</MenuItem>
             <MenuItem onClick={handleClose}><SaveIcon style={{ marginRight: '10px' }} /> Close File</MenuItem>
             <MenuItem onClick={handleClose}><DescriptionIcon style={{ marginRight: '10px' }} /> Delete</MenuItem>
@@ -165,6 +175,22 @@ function MainScreen() {
           placeholder="Start typing your content here..."
         />
       </Container>
+
+      {showSaveNotification && (
+        <Typography 
+          variant="subtitle1" 
+          style={{ 
+            color: 'green', 
+            position: 'absolute', 
+            top: '80px', 
+            right: '20px', 
+            backgroundColor: '#e0f7e9', 
+            padding: '5px 10px', 
+            borderRadius: '4px' 
+          }}>
+          File saved successfully!
+        </Typography>
+      )}
     </div>
   );
 }
